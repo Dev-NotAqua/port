@@ -1,0 +1,6 @@
+{
+  "name": "AI-Powered Personal Portfolio",
+  "description": "A sleek, modern personal portfolio for a senior frontend engineer, featuring an AI-powered contact message generator using the Gemini API.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
