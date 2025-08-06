@@ -1,42 +1,20 @@
-import React, { useState, useCallback } from 'react';
-import { generateContactMessage } from '../services/geminiService';
-import { useTypewriter } from './useTypewriter';
+import React, { useState } from 'react';
 
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
-  const [interest, setInterest] = useState('');
-  const [generatedMessage, setGeneratedMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-  
-  const typedMessage = useTypewriter(generatedMessage, 30);
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
 
-  const handleGenerateMessage = useCallback(async () => {
-    if (!name || !interest) {
-      setError('Please fill out both your name and your interest.');
-      return;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (name && email && message) {
+      // In a real app, you would send this data to your backend
+      // For now, we'll just show a success message
+      setIsSubmitted(true);
+      setTimeout(() => setIsSubmitted(false), 3000);
     }
-    setError('');
-    setIsLoading(true);
-    setGeneratedMessage('');
-    setCopied(false);
-
-    try {
-      const message = await generateContactMessage(name, interest);
-      setGeneratedMessage(message);
-    } catch (err) {
-      setError('Failed to generate message. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [name, interest]);
-  
-  const handleCopy = () => {
-    navigator.clipboard.writeText(generatedMessage);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
 
@@ -46,11 +24,11 @@ const Contact: React.FC = () => {
         Let's <span className="text-purple">Connect</span>
       </h2>
       <p className="text-center text-white/70 max-w-2xl mx-auto mb-12">
-        Interested in collaborating or just want to say hi? Fill out the fields below and let my AI assistant draft a conversation starter for you!
+        Interested in collaborating or just want to say hi? Feel free to reach out!
       </p>
       
       <div className="max-w-2xl mx-auto bg-charcoal/50 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-purple/20">
-        <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">Your Name</label>
             <input 
@@ -60,58 +38,44 @@ const Contact: React.FC = () => {
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-charcoal/70 border border-purple/30 rounded-md py-2 px-3 text-white focus:ring-2 focus:ring-purple focus:border-purple transition"
               placeholder="e.g., Jane Smith"
+              required
             />
           </div>
           <div>
-            <label htmlFor="interest" className="block text-sm font-medium text-white/80 mb-2">What's on your mind?</label>
+            <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">Your Email</label>
             <input 
-              type="text" 
-              id="interest"
-              value={interest}
-              onChange={(e) => setInterest(e.target.value)}
+              type="email" 
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-charcoal/70 border border-purple/30 rounded-md py-2 px-3 text-white focus:ring-2 focus:ring-purple focus:border-purple transition"
-              placeholder="e.g., Collaborating on a project"
+              placeholder="e.g., jane@example.com"
+              required
             />
           </div>
-           {error && <p className="text-purple font-semibold text-sm">{error}</p>}
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">Message</label>
+            <textarea 
+              id="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="w-full h-32 bg-charcoal/70 border border-purple/30 rounded-md py-2 px-3 text-white focus:ring-2 focus:ring-purple focus:border-purple transition resize-none"
+              placeholder="Tell me about your project or just say hi!"
+              required
+            />
+          </div>
+          {isSubmitted && (
+            <div className="text-green-400 font-semibold text-sm text-center">
+              Message sent! I'll get back to you soon.
+            </div>
+          )}
           <button 
-            onClick={handleGenerateMessage}
-            disabled={isLoading}
-            className="w-full bg-purple bg-opacity-90 hover:bg-opacity-100 disabled:bg-charcoal disabled:text-white/50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-md transition-all duration-300 flex items-center justify-center"
+            type="submit"
+            className="w-full bg-purple bg-opacity-90 hover:bg-opacity-100 text-white font-bold py-3 px-4 rounded-md transition-all duration-300 flex items-center justify-center"
           >
-            {isLoading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Generating...
-                </>
-            ) : "Generate Message with AI"}
+            Send Message
           </button>
-        </div>
-
-        {(generatedMessage || isLoading) && (
-           <div className="mt-8">
-             <label htmlFor="generated-message" className="block text-sm font-medium text-white/80 mb-2">Your AI-generated message:</label>
-             <div className="relative">
-                <textarea
-                  id="generated-message"
-                  readOnly
-                  value={typedMessage}
-                  className="w-full h-32 bg-charcoal/70 border border-purple/30 rounded-md py-2 px-3 text-white resize-none"
-                />
-                {generatedMessage && !isLoading && (
-                    <button 
-                      onClick={handleCopy}
-                      className="absolute top-2 right-2 bg-purple/40 hover:bg-purple/60 text-white text-xs font-bold py-1 px-2 rounded transition-colors"
-                    >
-                      {copied ? 'Copied!' : 'Copy'}
-                    </button>
-                )}
-             </div>
-           </div>
-        )}
+        </form>
       </div>
     </div>
   );
