@@ -1,5 +1,5 @@
 {
-  "name": "ai-powered-personal-portfolio",
+  "name": "personal-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,6 @@
     "build:css": "tailwindcss -i ./index.css -o ./dist/index.css --watch"
   },
   "dependencies": {
-    "@google/genai": "^1.12.0",
     "framer-motion": "^11.3.11",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

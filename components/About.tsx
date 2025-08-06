@@ -20,7 +20,7 @@ const About: React.FC = () => {
               Specialized in creating immersive multiplayer environments through <strong>FiveM and Roblox Lua scripting</strong>, developing scalable game mechanics and interactive systems that engage thousands of users. My cross-disciplinary approach bridges web development and game design, ensuring technical robustness while maintaining creative vision.
             </p>
              <p className="text-lg text-white/80">
-              Currently pioneering <strong>AI integration</strong> using Google Gemini API to build context-aware applications that automate workflows and personalize user interactions—demonstrating commitment to leveraging cutting-edge technologies to solve real-world challenges. Always iterating, always learning: I focus on showcasing only my strongest, most relevant work to highlight tangible value for clients and collaborators.
+              Passionate about creating innovative solutions and staying at the forefront of emerging technologies. Always iterating, always learning: I focus on showcasing only my strongest, most relevant work to highlight tangible value for clients and collaborators.
             </p>
         </div>
       </div>
