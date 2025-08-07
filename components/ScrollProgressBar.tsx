@@ -1,9 +1,10 @@
 import React from 'react';
-import { motion, useScroll } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useScrollProgress } from '../hooks/useOptimizedScroll';
 
 // A thin progress bar that fills horizontally as the user scrolls the page
 const ScrollProgressBar: React.FC = () => {
-  const { scrollYProgress } = useScroll();
+  const scrollYProgress = useScrollProgress(8); // 8ms throttle for smooth animation
 
   return (
     <motion.div

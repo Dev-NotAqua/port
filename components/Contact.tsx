@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollProgress } from '../hooks/useOptimizedScroll';
 
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0.7, 1], [100, 0]);
-  const opacity = useTransform(scrollYProgress, [0.7, 1], [0, 1]);
+  const scrollYProgress = useScrollProgress(32);
+  // Simplified transform calculations
+  const y = scrollYProgress > 0.7 ? (scrollYProgress - 0.7) * 333 : 100; // Simplified calculation
+  const opacity = scrollYProgress > 0.7 ? (scrollYProgress - 0.7) * 3.33 : 0; // Simplified calculation
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ const Contact: React.FC = () => {
     <motion.section
       id="contact"
       className="relative py-20 md:py-32"
-      style={{ y, opacity }}
+      style={{ transform: `translateY(${y}px)`, opacity: Math.min(1, Math.max(0, opacity)) }}
     >
       {/* Background decoration */}
       <motion.div

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollProgress } from '../hooks/useOptimizedScroll';
 
 interface HeaderProps {
   onOpenCommandPalette: () => void;
@@ -9,14 +10,25 @@ const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('home');
-  const { scrollYProgress } = useScroll();
+  const scrollYProgress = useScrollProgress(16); // 16ms throttle
 
   /* -------------------------------------------------------------------------- */
   /*                               Side Effects                                 */
   /* -------------------------------------------------------------------------- */
 
+  // Optimized scroll handling with throttling
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    let ticking = false;
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
 
     // Track visible section for active link highlighting
     const sectionIds = ['home', 'about', 'skills', 'projects', 'contact'];
@@ -38,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
       if (e.key === 'Escape') setIsMenuOpen(false);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('keydown', handleKeydown);
 
     return () => {
@@ -47,6 +59,8 @@ const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
       observers.forEach((o) => o.disconnect());
     };
   }, []);
+
+
 
   /* -------------------------------------------------------------------------- */
 

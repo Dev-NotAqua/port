@@ -1,10 +1,12 @@
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import SectionHeader from './SectionHeader';
+import { useScrollProgress } from '../hooks/useOptimizedScroll';
 
 const About: React.FC = () => {
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const scrollYProgress = useScrollProgress(32); // Slower throttle for parallax
+  // Simplified transform calculation to reduce computation
+  const y = scrollYProgress * -50; // Reduced parallax effect
   
   return (
     <motion.section
@@ -12,7 +14,7 @@ const About: React.FC = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      style={{ y }}
+      style={{ transform: `translateY(${y}px)` }}
       className="relative py-20"
     >
       {/* Background decoration */}

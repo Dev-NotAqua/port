@@ -38,21 +38,21 @@ const App: React.FC = () => {
           <Header onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
           <main className="container mx-auto px-6 py-8 md:px-12 md:py-16">
             <div className="space-y-24 md:space-y-32">
-              <motion.section id="home" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+              <section id="home">
                 <Hero />
-              </motion.section>
-              <motion.section id="about" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+              </section>
+              <section id="about">
                 <About />
-              </motion.section>
-              <motion.section id="skills" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+              </section>
+              <section id="skills">
                 <Skills activeSkill={activeSkill} setActiveSkill={setActiveSkill} />
-              </motion.section>
-              <motion.section id="projects" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+              </section>
+              <section id="projects">
                 <Projects activeSkill={activeSkill} />
-              </motion.section>
-              <motion.section id="contact" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+              </section>
+              <section id="contact">
                 <Contact />
-              </motion.section>
+              </section>
             </div>
           </main>
           <Footer />

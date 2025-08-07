@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { motion, Variants, useScroll, useTransform } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { SKILLS_DATA } from '../constants';
 import SectionHeader from './SectionHeader';
+import { useScrollProgress } from '../hooks/useOptimizedScroll';
 
 const containerVariants: Variants = {
   hidden: {},
@@ -28,8 +29,9 @@ interface SkillsProps {
 
 const Skills: React.FC<SkillsProps> = ({ activeSkill, setActiveSkill }) => {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-  const { scrollYProgress } = useScroll();
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const scrollYProgress = useScrollProgress(32); // Throttled for performance
+  // Simplified rotation calculation
+  const rotate = scrollYProgress * 180; // Reduced rotation range
   
   const handleSkillClick = (skillName: string) => {
     if (activeSkill === skillName) {
