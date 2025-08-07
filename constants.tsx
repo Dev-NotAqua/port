@@ -3,16 +3,16 @@ import type { Skill, Project } from './types';
 import { GitHubIcon, JavaScriptIcon, TypeScriptIcon, ReactIcon, NextjsIcon, NodejsIcon, TailwindCssIcon, CSharpIcon, CppIcon, PythonIcon, LuaIcon } from './components/icons.tsx';
 
 export const SKILLS_DATA: Skill[] = [
-  { name: 'JavaScript', category: 'Frontend', icon: <JavaScriptIcon /> },
-  { name: 'TypeScript', category: 'Frontend', icon: <TypeScriptIcon /> },
-  { name: 'React', category: 'Frontend', icon: <ReactIcon /> },
-  { name: 'Next.js', category: 'Fullstack', icon: <NextjsIcon /> },
-  { name: 'Node.js', category: 'Backend', icon: <NodejsIcon /> },
-  { name: 'TailwindCSS', category: 'Styling', icon: <TailwindCssIcon /> },
-  { name: 'C#', category: 'Backend', icon: <CSharpIcon /> },
-  { name: 'C++', category: 'Systems', icon: <CppIcon /> },
-  { name: 'Python', category: 'Backend', icon: <PythonIcon /> },
-  { name: 'lua', category: 'Scripting', icon: <LuaIcon /> },
+  { name: 'JavaScript', category: 'Frontend', icon: <JavaScriptIcon />, proficiency: 95 },
+  { name: 'TypeScript', category: 'Frontend', icon: <TypeScriptIcon />, proficiency: 90 },
+  { name: 'React', category: 'Frontend', icon: <ReactIcon />, proficiency: 92 },
+  { name: 'Next.js', category: 'Fullstack', icon: <NextjsIcon />, proficiency: 88 },
+  { name: 'Node.js', category: 'Backend', icon: <NodejsIcon />, proficiency: 85 },
+  { name: 'TailwindCSS', category: 'Styling', icon: <TailwindCssIcon />, proficiency: 96 },
+  { name: 'C#', category: 'Backend', icon: <CSharpIcon />, proficiency: 75 },
+  { name: 'C++', category: 'Systems', icon: <CppIcon />, proficiency: 70 },
+  { name: 'Python', category: 'Backend', icon: <PythonIcon />, proficiency: 80 },
+  { name: 'Lua', category: 'Scripting', icon: <LuaIcon />, proficiency: 85 },
 ];
 
 export const PROJECTS: Project[] = [

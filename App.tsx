@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LazyMotion, domAnimation } from 'framer-motion';
+import { LazyMotion, domAnimation, motion } from 'framer-motion';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -38,21 +38,21 @@ const App: React.FC = () => {
           <Header onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
           <main className="container mx-auto px-6 py-8 md:px-12 md:py-16">
             <div className="space-y-24 md:space-y-32">
-              <section id="home">
+              <motion.section id="home" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
                 <Hero />
-              </section>
-              <section id="about">
+              </motion.section>
+              <motion.section id="about" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
                 <About />
-              </section>
-              <section id="skills">
+              </motion.section>
+              <motion.section id="skills" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
                 <Skills activeSkill={activeSkill} setActiveSkill={setActiveSkill} />
-              </section>
-              <section id="projects">
+              </motion.section>
+              <motion.section id="projects" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
                 <Projects activeSkill={activeSkill} />
-              </section>
-              <section id="contact">
+              </motion.section>
+              <motion.section id="contact" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
                 <Contact />
-              </section>
+              </motion.section>
             </div>
           </main>
           <Footer />

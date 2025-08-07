@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { PROJECTS } from '../constants';
 import ProjectCard from './ProjectCard';
 import SectionHeader from './SectionHeader';
@@ -19,8 +19,16 @@ interface ProjectsProps {
 }
 
 const Projects: React.FC<ProjectsProps> = ({ activeSkill }) => {
+  const { scrollYProgress } = useScroll();
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  
   const filteredProjects = activeSkill
-    ? PROJECTS.filter(project => project.tags.includes(activeSkill))
+    ? PROJECTS.filter(project => 
+        project.tags.some(tag => 
+          tag.toLowerCase().includes(activeSkill.toLowerCase()) ||
+          activeSkill.toLowerCase().includes(tag.toLowerCase())
+        )
+      )
     : PROJECTS;
 
   return (
