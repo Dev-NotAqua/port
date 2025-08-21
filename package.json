@@ -10,6 +10,7 @@
     "build:css": "tailwindcss -i ./index.css -o ./dist/index.css --watch"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "framer-motion": "^11.3.11",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
