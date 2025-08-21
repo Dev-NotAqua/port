@@ -1,25 +1,71 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollProgress } from '../hooks/useOptimizedScroll';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const scrollYProgress = useScrollProgress(32);
   // Simplified transform calculations
   const y = scrollYProgress > 0.7 ? (scrollYProgress - 0.7) * 333 : 100; // Simplified calculation
   const opacity = scrollYProgress > 0.7 ? (scrollYProgress - 0.7) * 3.33 : 0; // Simplified calculation
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (name && email && message) {
+    if (!name || !email || !message) return;
+    
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // Check if EmailJS is configured
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      
+      if (!serviceId || !templateId || !publicKey) {
+        // Fallback to demo mode if EmailJS is not configured
+        console.log('EmailJS not configured, running in demo mode');
+        console.log('Contact form data:', { name, email, message });
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        setIsSubmitted(true);
+        setTimeout(() => setIsSubmitted(false), 5000);
+        setName('');
+        setEmail('');
+        setMessage('');
+        return;
+      }
+      
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message,
+        to_name: 'Aqqua', // The portfolio owner's name
+      };
+      
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
       setIsSubmitted(true);
-      setTimeout(() => setIsSubmitted(false), 3000);
+      setTimeout(() => setIsSubmitted(false), 5000);
       setName('');
       setEmail('');
       setMessage('');
+      
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setError('Failed to send message. Please try again later.');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -137,16 +183,33 @@ const Contact: React.FC = () => {
                     🎉 Message sent successfully! I'll get back to you within 24 hours.
                   </motion.div>
                 )}
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="text-red-400 font-semibold text-center p-4 bg-red-400/10 rounded-lg border border-red-400/20"
+                  >
+                    ❌ {error}
+                  </motion.div>
+                )}
               </AnimatePresence>
 
               <motion.button 
                 type="submit"
                 className="w-full bg-gradient-to-r from-purple to-pink text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-purple/25 disabled:opacity-50"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                disabled={!name || !email || !message}
+                whileHover={{ scale: !isLoading ? 1.02 : 1 }}
+                whileTap={{ scale: !isLoading ? 0.98 : 1 }}
+                disabled={!name || !email || !message || isLoading}
               >
-                Send Message
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="animate-spin">⏳</span>
+                    Sending...
+                  </span>
+                ) : (
+                  'Send Message'
+                )}
               </motion.button>
             </form>
           </div>
