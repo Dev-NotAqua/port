@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ onOpenCommandPalette }) => {
         ([entry]) => {
           if (entry.isIntersecting) setActiveSection(id);
         },
-        { rootMargin: '-50% 0px -40% 0px', threshold: 0.1 }
+        { rootMargin: '0px', threshold: 0.5 }
       );
       obs.observe(el);
       observers.push(obs);

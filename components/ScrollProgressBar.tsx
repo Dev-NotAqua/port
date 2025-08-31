@@ -8,7 +8,7 @@ const ScrollProgressBar: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 h-1 bg-purple origin-left z-[9999]"
+      className="fixed top-0 left-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 origin-left z-[9999] shadow-glow"
       style={{ scaleX: scrollYProgress }}
     />
   );

@@ -184,6 +184,7 @@ const Hero: React.FC = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           >
             <motion.button
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               className="glass-morphism-strong px-8 py-4 rounded-2xl font-semibold text-white hover:text-gradient transition-all duration-300 group"
@@ -200,6 +201,7 @@ const Hero: React.FC = () => {
             </motion.button>
             
             <motion.button
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               className="neumorphism px-8 py-4 rounded-2xl font-semibold text-slate-300 hover:text-white transition-all duration-300"

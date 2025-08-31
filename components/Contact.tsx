@@ -27,14 +27,22 @@ const Contact: React.FC = () => {
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      const targetEmail = import.meta.env.VITE_TARGET_EMAIL || 'setsnewacc@gmail.com';
+      const ownerName = import.meta.env.VITE_EMAIL_OWNER_NAME || 'Aqqua';
       
       if (!serviceId || !templateId || !publicKey) {
         // Fallback to demo mode if EmailJS is not configured
         console.log('EmailJS not configured, running in demo mode');
-        console.log('Contact form data:', { name, email, message });
+        console.log('Contact form data:', { 
+          name, 
+          email, 
+          message, 
+          targetEmail: targetEmail,
+          timestamp: new Date().toISOString()
+        });
         
         // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1500));
         
         setIsSubmitted(true);
         setTimeout(() => setIsSubmitted(false), 5000);
@@ -45,15 +53,20 @@ const Contact: React.FC = () => {
       }
       
       // Send email using EmailJS
-      const templateParams = {
-        from_name: name,
-        from_email: email,
-        message: message,
-        to_name: 'Aqqua', // The portfolio owner's name
-      };
+const templateParams = {
+  from_name: name,
+  from_email: email,
+  message: message,
+  to_name: ownerName,
+  to_email: targetEmail,
+  reply_to: email,
+  time: new Date().toLocaleString(), // Add this line
+};
       
+      console.log('Sending email to:', targetEmail);
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
       
+      console.log('Email sent successfully to:', targetEmail);
       setIsSubmitted(true);
       setTimeout(() => setIsSubmitted(false), 5000);
       setName('');
@@ -62,7 +75,7 @@ const Contact: React.FC = () => {
       
     } catch (error) {
       console.error('Error sending email:', error);
-      setError('Failed to send message. Please try again later.');
+      setError('Failed to send message. Please check your connection and try again.');
       setTimeout(() => setError(null), 5000);
     } finally {
       setIsLoading(false);

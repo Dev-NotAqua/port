@@ -49,28 +49,19 @@ export const useOptimizedScroll = (options: UseOptimizedScrollOptions = {}): Scr
         scrollYProgress,
         scrollDirection,
       });
-      
       ticking.current = false;
     };
 
     const handleScroll = () => {
       if (!ticking.current) {
-        if (throttleMs > 0) {
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-          timeoutRef.current = setTimeout(() => {
-            requestAnimationFrame(updateScrollData);
-          }, throttleMs);
-        } else {
-          requestAnimationFrame(updateScrollData);
-        }
         ticking.current = true;
+        if (throttleMs > 0) {
+          timeoutRef.current = setTimeout(updateScrollData, throttleMs);
+        } else {
+          window.requestAnimationFrame(updateScrollData);
+        }
       }
     };
-
-    // Initial call
-    updateScrollData();
     
     window.addEventListener('scroll', handleScroll, { passive: true });
 

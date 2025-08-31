@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:css": "tailwindcss -i ./index.css -o ./dist/index.css --watch"
+    "build:css": "tailwindcss -i ./index.css -o ./dist/index.css --watch",
+    "test:email": "node test-email-setup.js",
+    "validate": "node test-email-setup.js"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
