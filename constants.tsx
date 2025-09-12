@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Skill, Project } from './types';
 import { GitHubIcon, JavaScriptIcon, TypeScriptIcon, ReactIcon, NextjsIcon, NodejsIcon, TailwindCssIcon, CSharpIcon, CppIcon, PythonIcon, LuaIcon } from './components/icons.tsx';
 
@@ -25,9 +24,18 @@ export const PROJECTS: Project[] = [
     repoUrl: 'https://github.com/Dev-NotAqua/mcd-onboarding-handbook',
   },
   {
+    title: 'Dark Whispers',
+    description: 'A thrilling Roblox horror game featuring prophunt mechanics where players hide as objects while being hunted in dark, atmospheric environments. Built with immersive horror elements and strategic gameplay.',
+    tags: ['Roblox', 'Lua', 'Game Development', 'Horror', 'Prophunt'],
+    imageUrl: 'https://via.placeholder.com/600x400/ff6b35/ffffff?text=🚧+Work+In+Progress+🚧',
+    liveUrl: 'https://dark-whispers-demo.vercel.app',
+    repoUrl: 'https://github.com/Dev-NotAqua/dark-whispers',
+  },
+  {
     title: 'FiveM Anticheat (WIP)',
     description: 'A robust, work-in-progress anticheat solution for the FiveM platform, using advanced techniques to detect and prevent cheating in game.',
     tags: ['Lua', 'Backend', 'Systems'],
+    imageUrl: 'https://via.placeholder.com/600x400/ff6b35/ffffff?text=🚧+Under+Development+🚧',
     repoUrl: 'https://github.com/Dev-NotAqua/FivemAC',
   },
 ];
